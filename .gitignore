@@ -1,4 +1,9 @@
 node_modules/
-playwright-report/
 test-results/
 dist/
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
