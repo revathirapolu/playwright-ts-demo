@@ -1,15 +1,10 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
+import { expect } from '@playwright/test';
+import { test } from '../fixtures/authFixture';
 import { DashboardPage } from '../pages/DashboardPage';
-import { credentials } from '../utils/testData';
 
 test.describe('Login Flow', () => {
-  test('should log in successfully', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
-
-    await loginPage.goto("/");
-    await loginPage.login(credentials.validUser.username, credentials.validUser.password);
+  test('should log in successfully', async ({ authPage }) => {
+    const dashboardPage = new DashboardPage(authPage);
 
     await expect(dashboardPage.welcomeBanner).toBeVisible();
   });

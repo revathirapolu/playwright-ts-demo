@@ -10,12 +10,15 @@ export class LoginPage extends BasePage {
     super(page);
     this.usernameInput = page.getByPlaceholder("Username");
     this.passwordInput = page.getByPlaceholder("Password");
-    this.loginButton = page.getByRole('button',{ name: 'Login' });
+    this.loginButton = page.getByRole('button', { name: 'Login' });
   }
 
   async login(username: string, password: string) {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
-    await this.loginButton.click();
+    await Promise.all([
+      this.page.waitForURL('**/dashboard**', { timeout: 15000 }),
+      this.loginButton.click()
+    ]);
   }
 }
