@@ -12,9 +12,9 @@ pipeline {
  
       stage('Check Environment') {
            steps {
-               bat 'node --version'
-               bat 'npm --version'
-               bat 'git --version'
+               sh 'node --version'
+               sh 'npm --version'
+               sh 'git --version'
            }
       }
   }
