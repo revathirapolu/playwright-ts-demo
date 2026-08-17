@@ -1,57 +1,41 @@
 pipeline {
-
     agent any
  
     stages {
  
         stage('Checkout') {
-
             steps {
-
                 checkout scm
-
             }
-
         }
  
         stage('Check Environment') {
-
             steps {
-
                 sh '''
-
-                    echo "========== ENVIRONMENT =========="
-
-                    echo "PATH=$PATH"
-
-                    echo "JAVA_HOME=$JAVA_HOME"
+                    export NVM_DIR="/Users/ramrapolu/.nvm"
  
-                    echo "========== TOOLS =========="
-
-                    echo "Node:"
-
-                    which node || true
-
-                    node --version || true
+                    if [ -s "$NVM_DIR/nvm.sh" ]; then
+                        . "$NVM_DIR/nvm.sh"
+                    else
+                        echo "NVM not found"
+                        exit 1
+                    fi
  
-                    echo "NPM:"
-
-                    which npm || true
-
-                    npm --version || true
+                    nvm use 22.23.1
  
-                    echo "Git:"
-
-                    which git || true
-
-                    git --version || true
-
+                    echo "===== Node ====="
+                    which node
+                    node --version
+ 
+                    echo "===== NPM ====="
+                    which npm
+                    npm --version
+ 
+                    echo "===== Git ====="
+                    which git
+                    git --version
                 '''
-
             }
-
         }
-
     }
-
 }
