@@ -9,31 +9,54 @@ pipeline {
             }
         }
  
-        stage('Check Environment') {
+        stage('Setup Node') {
             steps {
                 sh '''
                     export NVM_DIR="/Users/ramrapolu/.nvm"
- 
-                    if [ -s "$NVM_DIR/nvm.sh" ]; then
-                        . "$NVM_DIR/nvm.sh"
-                    else
-                        echo "NVM not found"
-                        exit 1
-                    fi
- 
+                    . "$NVM_DIR/nvm.sh"
                     nvm use 22.23.1
  
-                    echo "===== Node ====="
-                    which node
+                    echo "Node:"
                     node --version
  
-                    echo "===== NPM ====="
-                    which npm
+                    echo "NPM:"
                     npm --version
+                '''
+            }
+        }
  
-                    echo "===== Git ====="
-                    which git
-                    git --version
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    export NVM_DIR="/Users/ramrapolu/.nvm"
+                    . "$NVM_DIR/nvm.sh"
+                    nvm use 22.23.1
+ 
+                    npm ci
+                '''
+            }
+        }
+ 
+        stage('Install Playwright Browsers') {
+            steps {
+                sh '''
+                    export NVM_DIR="/Users/ramrapolu/.nvm"
+                    . "$NVM_DIR/nvm.sh"
+                    nvm use 22.23.1
+ 
+                    npx playwright install
+                '''
+            }
+        }
+ 
+        stage('Run Playwright Tests') {
+            steps {
+                sh '''
+                    export NVM_DIR="/Users/ramrapolu/.nvm"
+                    . "$NVM_DIR/nvm.sh"
+                    nvm use 22.23.1
+ 
+                    npx playwright test
                 '''
             }
         }
