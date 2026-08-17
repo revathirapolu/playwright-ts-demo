@@ -1,20 +1,57 @@
-
 pipeline {
-  agent { label 'mac' }  
-  stages {
+
+    agent any
  
-      stage('Checkout') {
-           steps {
-               checkout scm
-           }
-      }
+    stages {
  
-      stage('Check Environment') {
-           steps {
-               sh 'node --version'
-               sh 'npm --version'
-               sh 'git --version'
-           }
-      }
-  }
+        stage('Checkout') {
+
+            steps {
+
+                checkout scm
+
+            }
+
+        }
+ 
+        stage('Check Environment') {
+
+            steps {
+
+                sh '''
+
+                    echo "========== ENVIRONMENT =========="
+
+                    echo "PATH=$PATH"
+
+                    echo "JAVA_HOME=$JAVA_HOME"
+ 
+                    echo "========== TOOLS =========="
+
+                    echo "Node:"
+
+                    which node || true
+
+                    node --version || true
+ 
+                    echo "NPM:"
+
+                    which npm || true
+
+                    npm --version || true
+ 
+                    echo "Git:"
+
+                    which git || true
+
+                    git --version || true
+
+                '''
+
+            }
+
+        }
+
+    }
+
 }
