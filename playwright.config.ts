@@ -13,7 +13,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://opensource-demo.orangehrmlive.com'
   },
-  reporter: ['html',{open: 'never'}],
+  reporter: [['html',{open: 'never'}]],
   projects: [
     {
       name: 'Chromium',
